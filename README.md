@@ -4,7 +4,7 @@
 * We also provided the stand-alone application working on Windows, Mac, and Linux.
 
 ### Install stand-alone version
-https://github.com/htylab/tigerbx/releases
+https://github.com/htylab/tigerepi/releases
 
 ### Usage
 
@@ -21,7 +21,7 @@ https://github.com/htylab/tigerbx/releases
     tigerepi.run('bmaw', r'C:\T1w_dir', r'C:\output_dir')
     tigerepi.run('bmaw', r'C:\T1w_dir\**\*.nii.gz', r'C:\output_dir')
     tigerepi.run('bmaw', r'C:\T1w_dir\**\*.nii.gz') # storing output in the same dir
-    tigerepi.run('ag', r'C:\T1w_dir') # Producing deep-gray-matter masks with GPU
+    tigerepi.run('ag', r'C:\T1w_dir') # Producing aseg masks with GPU
 
 
 ** Mac and Windows  are supported.**
