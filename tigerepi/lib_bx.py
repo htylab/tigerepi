@@ -84,6 +84,7 @@ def run(model_ff, input_nib, GPU):
     label_num = dict()
     label_num['bet'] = 2
     label_num['aseg43'] = 44
+    label_num['wmp'] = 74
         
     if seg_mode == 'bet' and False:
         #sigmoid
@@ -102,7 +103,7 @@ def run(model_ff, input_nib, GPU):
         mask_pred = np.argmax(logits, axis=0)
         prob = softmax(logits, axis=0)
 
-    if seg_mode in ['aseg43', 'dkt']:
+    if seg_mode in ['aseg43', 'wmp']:
         labels = label_all[seg_mode]
         mask_pred_relabel = mask_pred * 0
         for ii in range(len(labels)):
