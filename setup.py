@@ -35,5 +35,6 @@ setup(
      install_requires=[
              'numpy>=1.16.0',
              'nilearn>=0.9.1',
+             'SimpleITK>=2.1.0',
          ]
 )
