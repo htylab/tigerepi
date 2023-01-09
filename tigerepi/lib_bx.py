@@ -130,7 +130,7 @@ def read_file(model_ff, input_file):
         #vol_nib = reorder_img(nib.load(input_file), resample='linear')
         vol_nib = reorder_img(nib.load(input_file), resample='continuous')
     elif mat_size <= 30 and mat_size>=1:
-        vol_nib = resample_voxel(input_file, (1.7, 1.7, 1.7))
+        vol_nib = resample_voxel(nib.load(input_file), (1.7, 1.7, 1.7))
         vol_nib = reorder_img(vol_nib, resample='continuous')
     else:
         affine, shape = get_affine(mat_size)
