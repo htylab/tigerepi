@@ -17,6 +17,8 @@ https://github.com/htylab/tigerepi/releases
 
 ### As a python package
 
+## Segmentation
+
     import tigerepi
     tigerepi.run('bmaw', r'C:\T1w_dir', r'C:\output_dir')
     tigerepi.run('bmaw', r'C:\T1w_dir\**\*.nii.gz', r'C:\output_dir')
@@ -28,8 +30,6 @@ https://github.com/htylab/tigerepi/releases
 
 ** Ubuntu (version >18.04)  are supported.**
 
-** Typically requires about 1 minute to obtain deep gray matter segmenation without GPU**
-
 ```
 >>tigerepi  c:\data\**\*T1w.nii -o c:\outputdir -b -m -a -d -f
 -b: producing extracted brain
@@ -38,6 +38,7 @@ https://github.com/htylab/tigerepi/releases
 -w, Producing the white matter parcellation (work in progress)
 -f: faster operation with low-resolution models
 ```
+
 ## Citation
 
 * If you use this application, cite the following paper:

@@ -99,9 +99,9 @@ def run_args(args):
 
     default_model = dict()
 
-    default_model['bet'] = 'epi_bet_v001_full.onnx'
-    default_model['aseg'] = 'epi_aseg43_v001_r17.onnx'
-    default_model['wmp'] = 'epi_wmp_v001_r17.onnx'
+    default_model['bet'] = 'epi_bet_v002_full.onnx'
+    default_model['aseg'] = 'epi_aseg43_v002_r17.onnx'
+    default_model['wmp'] = 'epi_wmp_v002_r17.onnx'
 
 
     # if you want to use other models

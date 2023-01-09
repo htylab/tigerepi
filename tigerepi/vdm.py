@@ -47,7 +47,7 @@ def main():
     print('Total nii files:', len(input_file_list))
 
 
-    model_name = tigertool.get_model('vdm_gan_h1_n1_v001')
+    model_name = tigertool.get_model('vdm_gan_v002')
 
 
 
