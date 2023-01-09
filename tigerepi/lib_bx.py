@@ -85,7 +85,7 @@ def run(model_ff, input_nib, GPU):
     label_num['bet'] = 2
     label_num['aseg43'] = 44
         
-    if seg_mode == 'bet':
+    if seg_mode == 'bet' and False:
         #sigmoid
         th = 0.5
         from scipy.special import expit

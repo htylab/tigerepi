@@ -179,13 +179,15 @@ def gernerate_vdm(vdm_mode, session, orig_data, b0_index, resample=True):
     if resample:
         resample_nii = resample_to_new_resolution(nib.Nifti1Image(vol, orig_data.affine), target_resolution=(1.7, 1.7, 1.7), target_shape=None, interpolation='continuous')
         vol_resize = resample_nii.get_fdata()
+        head_mask = get_head_mask(vol_resize, htype=1)!=0
         vol_resize = vol_resize / np.max(vol_resize)
     else:
+        head_mask = get_head_mask(vol, htype=1)!=0
         vol_resize = vol / np.max(vol)
     
     image = vol_resize[None, ...][None, ...]
 
-    head_mask = get_head_mask(vol_resize, htype=1)!=0
+    
     image = np.stack([vol_resize, HistogramNormalize(vol_resize, mask=head_mask, num_bins=256, minv=0, maxv=1)], axis=0)[None, ...]
 
     #sigmoid = session.run(None, {"modelInput": image.astype(np.float64)})[0]
