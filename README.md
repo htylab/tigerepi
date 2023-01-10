@@ -13,7 +13,7 @@ https://github.com/htylab/tigerepi/releases
 ### As a python package
 
     pip install onnxruntime #for gpu version: onnxruntime-gpu
-    pip install https://github.com/htylab/tigerepi/releases/main.zip
+    pip install https://github.com/htylab/tigerepi/archive/refs/heads/main.zip
 
 ## Segmentation
 
