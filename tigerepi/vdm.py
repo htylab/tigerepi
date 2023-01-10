@@ -9,12 +9,11 @@ import nibabel as nib
 import numpy as np
 import time
 
-import tigerepi.lib_vdm as vdm
-import tigerepi.lib_tool as tigertool
-
+from tigerepi import lib_tool
+from tigerepi import lib_vdm
 
 def main():
-
+      
     parser = argparse.ArgumentParser()
     parser.add_argument('input',  type=str, nargs='+', help='Path to the input image, can be a folder for the specific format(nii.gz)')
     parser.add_argument('-o', '--output', default=None, help='File path for output image, default: the directory of input files')
@@ -22,8 +21,28 @@ def main():
     parser.add_argument('-n', '--no_resample', action='store_true', help='Don\'t resample to 1.7x1.7x1.7mm3')
     parser.add_argument('-m', '--dmap', action='store_true', help='Producing the virtual displacement map')
     parser.add_argument('-g', '--gpu', action='store_true', help='Using GPU')
+    args = parser.parse_args()
+    run_args(args)
 
-    args = parser.parse_args() 
+def vdm(input, output=None, b0_index=0, dmap=False, no_resample=False, GPU=False):
+
+    from argparse import Namespace
+    args = Namespace()
+
+    args.b0_index = str(b0_index)
+    args.dmap = dmap
+    args.no_resample = no_resample
+    args.gpu = GPU
+
+    if not isinstance(input, list):
+        input = [input]
+    args.input = input
+    args.output = output
+
+    run_args(args)   
+
+
+def run_args(args):
 
     input_file_list = args.input
     if os.path.isdir(args.input[0]):
@@ -38,7 +57,7 @@ def main():
     if args.b0_index is None:
         b0_index = 0
     elif os.path.exists(args.b0_index.replace('.bval', '') + '.bval'):
-        b0_index = vdm.get_b0_slice(args.b0_index.replace('.bval', '') + '.bval')
+        b0_index = lib_vdm.get_b0_slice(args.b0_index.replace('.bval', '') + '.bval')
     else:
         b0_index = int(args.b0_index)
         
@@ -47,7 +66,7 @@ def main():
     print('Total nii files:', len(input_file_list))
 
 
-    model_name = tigertool.get_model('vdm_gan_v002')
+    model_name = lib_tool.get_model('vdm_gan_v002')
 
 
 
@@ -55,8 +74,8 @@ def main():
 
         print('Predicting:', f)
         t = time.time()
-        input_data = vdm.read_file(model_name, f)
-        vdmi, vdmap = vdm.run(model_name, input_data, b0_index, GPU=args.gpu, resample=resample)
+        input_data = lib_vdm.read_file(model_name, f)
+        vdmi, vdmap = lib_vdm.run(model_name, input_data, b0_index, GPU=args.gpu, resample=resample)
         
         if output_dir is None:
             f_output_dir = os.path.dirname(os.path.abspath(f))
@@ -64,10 +83,10 @@ def main():
             f_output_dir = output_dir
             os.makedirs(output_dir, exist_ok=True)
         
-        vdm.write_file(model_name, f, f_output_dir, vdmi)
+        lib_vdm.write_file(model_name, f, f_output_dir, vdmi)
         
         if args.dmap:
-            vdm.write_file(model_name, f, f_output_dir, vdmap, postfix='vdm')
+            lib_vdm.write_file(model_name, f, f_output_dir, vdmap, postfix='vdm')
 
         print('Processing time: %d seconds' % (time.time() - t))    
 

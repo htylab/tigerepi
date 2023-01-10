@@ -1,6 +1,6 @@
 ## Background
 
-* This repo provides deep-learning methods for EPI VDM corrention and brain segmentaion.
+* This repo provides deep-learning methods for EPI VDM corrention and EPI brain segmentaion.
 * We also provided the stand-alone application working on Windows, Mac, and Linux.
 
 ### Install stand-alone version
@@ -8,16 +8,16 @@ https://github.com/htylab/tigerepi/releases
 
 ### Usage
 
-    tigerbx -bmad c:\data\*.nii.gz -o c:\output
+    tigerepi -bmad c:\data\*.nii.gz -o c:\output
 
 ### As a python package
 
     pip install onnxruntime #for gpu version: onnxruntime-gpu
     pip install https://github.com/htylab/tigerepi/archive/release.zip
 
-### As a python package
-
 ## Segmentation
+
+### As a python package
 
     import tigerepi
     tigerepi.run('bmaw', r'C:\T1w_dir', r'C:\output_dir')
@@ -31,12 +31,11 @@ https://github.com/htylab/tigerepi/releases
 ** Ubuntu (version >18.04)  are supported.**
 
 ```
->>tigerepi  c:\data\**\*T1w.nii -o c:\outputdir -b -m -a -d -f
+>>tigerepi  c:\data\**\*T1w.nii -o c:\outputdir -b -m -a -w
 -b: producing extracted brain
 -m: producing the brain mask
 -a: producing the aseg mask
 -w, Producing the white matter parcellation (work in progress)
--f: faster operation with low-resolution models
 ```
 
 ## Citation

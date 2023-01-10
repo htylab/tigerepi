@@ -28,6 +28,8 @@ setup(
      entry_points={
         'console_scripts': [
             'tigerepi = tigerepi.bx:main',
+            'tigerepi_seg = tigerepi.bx:main',
+            'tigerepi_vdm = tigerepi.vdm:main',
 
         ]
     },

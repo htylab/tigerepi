@@ -50,14 +50,13 @@ def main():
     parser.add_argument('-m', '--betmask', action='store_true', help='Producing bet mask')
     parser.add_argument('-a', '--aseg', action='store_true', help='Producing aseg mask')
     parser.add_argument('-b', '--bet', action='store_true', help='Producing bet images')
-    parser.add_argument('-w', '--wmp', action='store_true',
-                        help='Producing white matter parcellation')
+    parser.add_argument('-w', '--wmp', action='store_true', help='Producing white matter parcellation')
     parser.add_argument('--model', default=None, type=str, help='Specifies the modelname')
     #parser.add_argument('--report',default='True',type = strtobool, help='Produce additional reports')
     args = parser.parse_args()
     run_args(args)
 
-def run(argstring, input, output=None, model=None):
+def seg(argstring, input, output=None, model=None):
 
     from argparse import Namespace
     args = Namespace()

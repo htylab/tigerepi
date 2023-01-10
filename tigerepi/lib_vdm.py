@@ -13,12 +13,6 @@ from nilearn.image import resample_img
 
 
 nib.Nifti1Header.quaternion_threshold = -100
-def get_mode(model_ff):
-    seg_mode, version, model_str = basename(model_ff).split('_')[1:4]  # aseg43, bet
-
-    #print(seg_mode, version , model_str)
-
-    return seg_mode, version, model_str
 
 def run(model_ff, input_data, b0_index, GPU, resample=True):
     import onnxruntime as ort
@@ -37,8 +31,8 @@ def run(model_ff, input_data, b0_index, GPU, resample=True):
                                        providers=['CPUExecutionProvider'],
                                        sess_options=so)
 
-    vdm_mode, _, _ = get_mode(model_ff) #vdmmode: 3dunet, gan    
-
+    vdm_mode = 'gan'
+        
     orig_data = input_data  
     
     
