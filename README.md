@@ -20,10 +20,41 @@ https://github.com/htylab/tigerepi/releases
 ### As a python package
 
     import tigerepi
-    tigerepi.run('bmaw', r'C:\T1w_dir', r'C:\output_dir')
-    tigerepi.run('bmaw', r'C:\T1w_dir\**\*.nii.gz', r'C:\output_dir')
-    tigerepi.run('bmaw', r'C:\T1w_dir\**\*.nii.gz') # storing output in the same dir
-    tigerepi.run('ag', r'C:\T1w_dir') # Producing aseg masks with GPU
+    tigerepi.seg('bmaw', r'C:\EPI_dir', r'C:\output_dir')
+    tigerepi.seg('bmaw', r'C:\EPI_dir\**\*.nii.gz', r'C:\output_dir')
+    tigerepi.seg('bmaw', r'C:\EPI_dir\**\*.nii.gz') # storing output in the same dir
+    tigerepi.seg('ag', r'C:\EPI_dir') # Producing aseg masks with GPU
+
+
+** Mac and Windows  are supported.**
+
+** Ubuntu (version >18.04)  are supported.**
+
+```
+>>tigerepi  c:\data\**\*epi.nii -o c:\outputdir -b -m -a -w
+-b: producing extracted brain
+-m: producing the brain mask
+-a: producing the aseg mask
+-w, Producing the white matter parcellation (work in progress)
+```
+
+## VDM
+
+### As a python package
+
+    import tigerepi
+    tigerepi.vdm(r'C:\EPI_dir', r'C:\output_dir', b0_index=0)
+
+** Mac and Windows  are supported.**
+
+** Ubuntu (version >18.04)  are supported.**
+```
+>>tigerepi_vdm  c:\data\**\*epi.nii -o c:\outputdir
+```
+- For additional options type:
+```
+tigerepi_vdm -h
+```
 
 
 ** Mac and Windows  are supported.**
