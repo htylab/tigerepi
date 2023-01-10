@@ -53,20 +53,7 @@ https://github.com/htylab/tigerepi/releases
 ```
 - For additional options type:
 ```
-tigerepi_vdm -h
-```
-
-
-** Mac and Windows  are supported.**
-
-** Ubuntu (version >18.04)  are supported.**
-
-```
->>tigerepi  c:\data\**\*T1w.nii -o c:\outputdir -b -m -a -w
--b: producing extracted brain
--m: producing the brain mask
--a: producing the aseg mask
--w, Producing the white matter parcellation (work in progress)
+>>tigerepi_vdm -h
 ```
 
 ## Citation
