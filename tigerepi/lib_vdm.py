@@ -114,7 +114,9 @@ def resample_to_new_resolution(data_nii, target_resolution, target_shape=None, i
     return new_nii
 
 
-def apply_vdm_2d(ima, vdm, readout=1, AP_RL='AP'):
+def apply_vdm_2d(ima_org, vdm, readout=1, AP_RL='AP'):
+
+    ima = ima_org.astype('float32')
 
     if AP_RL == 'AP':
         arr = np.stack([vdm*readout, vdm*0], axis=-1)
@@ -137,7 +139,9 @@ def apply_vdm_2d(ima, vdm, readout=1, AP_RL='AP'):
     return new_ima*jac_np
 
 
-def apply_vdm_3d(ima, vdm, readout=1, AP_RL='AP'):
+def apply_vdm_3d(ima_org, vdm, readout=1, AP_RL='AP'):
+
+    ima = ima_org.astype('float32')
 
     if AP_RL == 'AP':
         arr = np.stack([vdm*0, vdm*readout, vdm*0], axis=-1)
