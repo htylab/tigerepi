@@ -195,7 +195,7 @@ def gernerate_vdm(vdm_mode, session, orig_data, b0_index, resample=True):
     logits = predict(session, image)
 
     if resample:
-        df_map = resample_to_new_resolution(nib.Nifti1Image(logits[0, 0, ...], resample_nii.affine), target_resolution=zoom, target_shape=vol.shape, interpolation='linear').get_fdata() / 1.7 * zoom[1]
+        df_map = resample_to_new_resolution(nib.Nifti1Image(logits[0, 0, ...], resample_nii.affine), target_resolution=zoom, target_shape=vol.shape, interpolation='linear').get_fdata() * 1.7 / zoom[1]
     else:
         df_map = logits[0, 0, ...]
 
