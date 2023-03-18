@@ -150,7 +150,11 @@ def run_args(args):
 
         if get_b:
             input_nib = nib.load(f)
-            bet = input_nib.get_fdata() * tbetmask_nib.get_fdata()
+            if len(input_nib.shape)==4:
+                bet = input_nib.get_fdata()[...,0] * tbetmask_nib.get_fdata()
+            else:
+                bet = input_nib.get_fdata() * tbetmask_nib.get_fdata()
+
             bet = bet.astype(input_nib.dataobj.dtype)
 
 
