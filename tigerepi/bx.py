@@ -155,7 +155,7 @@ def run_args(args):
             else:
                 bet = input_nib.get_fdata() * tbetmask_nib.get_fdata()
 
-            bet = bet.astype(input_nib.dataobj.dtype)
+            bet = bet.astype(input_nib.get_data_dtype())
 
 
             bet = nib.Nifti1Image(bet, input_nib.affine,
