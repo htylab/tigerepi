@@ -66,7 +66,7 @@ def run_args(args):
     print('Total nii files:', len(input_file_list))
 
 
-    model_name = lib_tool.get_model('vdm_gan_v002')
+    model_name = lib_tool.get_model('vdm_unet3d_v002')
 
 
 

@@ -187,8 +187,9 @@ def gernerate_vdm(vdm_mode, session, orig_data, b0_index, resample=True):
         head_mask = get_head_mask(vol, htype=1)!=0
         vol_resize = vol / np.max(vol)
     
-    vol_resize_n = HistogramNormalize(vol_resize, mask=head_mask, num_bins=256, minv=0, maxv=1)
-    image = np.stack([vol_resize, vol_resize_n], axis=0)[None, ...]
+    # vol_resize_n = HistogramNormalize(vol_resize, mask=head_mask, num_bins=256, minv=0, maxv=1)
+    # image = np.stack([vol_resize, vol_resize_n], axis=0)[None, ...]
+    image = np.stack([vol_resize], axis=0)[None, ...]
     
     #sigmoid = session.run(None, {"modelInput": image.astype(np.float64)})[0]
 

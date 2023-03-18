@@ -51,6 +51,7 @@ def main():
     parser.add_argument('-a', '--aseg', action='store_true', help='Producing aseg mask')
     parser.add_argument('-b', '--bet', action='store_true', help='Producing bet images')
     parser.add_argument('-w', '--wmp', action='store_true', help='Producing white matter parcellation')
+    parser.add_argument('-k', '--wmp', action='store_true', help='Producing dkt mask')
     parser.add_argument('--model', default=None, type=str, help='Specifies the modelname')
     #parser.add_argument('--report',default='True',type = strtobool, help='Produce additional reports')
     args = parser.parse_args()
@@ -66,6 +67,7 @@ def seg(argstring, input, output=None, model=None):
     args.bet = 'b' in argstring
     args.gpu = 'g' in argstring
     args.wmp = 'w' in argstring
+    args.dkt = 'k' in argstring
 
     if not isinstance(input, list):
         input = [input]
@@ -81,6 +83,7 @@ def run_args(args):
     get_a = args.aseg
     get_b = args.bet
     get_w = args.wmp
+    get_k= args.dkt
 
     if True not in [get_m, get_a, get_b, get_w]:
         get_b = True
@@ -101,6 +104,7 @@ def run_args(args):
     default_model['bet'] = 'epi_bet_v002_full.onnx'
     default_model['aseg'] = 'epi_aseg43_v002_r17.onnx'
     default_model['wmp'] = 'epi_wmp_v002_r17.onnx'
+    default_model['wmp'] = 'epi_dkt_v002_r17.onnx'
 
 
     # if you want to use other models
@@ -117,6 +121,7 @@ def run_args(args):
     model_bet = default_model['bet']
     model_aseg = default_model['aseg']
     model_wmp = default_model['wmp']
+    model_dkt = default_model['dkt']
 
 
 
@@ -166,6 +171,12 @@ def run_args(args):
                                     brainmask_nib=tbetmask_nib)
  
             save_nib(wmp_nib, ftemplate, 'wmp')
+
+        if get_k:
+            dkt_nib = produce_mask(model_dkt, f, GPU=args.gpu,
+                                    brainmask_nib=tbetmask_nib)
+ 
+            save_nib(dkt_nib, ftemplate, 'dkt')
 
         
 

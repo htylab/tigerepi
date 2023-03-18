@@ -19,6 +19,14 @@ label_all['wmp'] = (  251,  252,  253,  254,  255, 3001, 3002, 3003, 3005, 3006,
                      4007, 4008, 4009, 4010, 4011, 4012, 4013, 4014, 4015, 4016, 4017,
                      4018, 4019, 4020, 4021, 4022, 4023, 4024, 4025, 4026, 4027, 4028,
                      4029, 4030, 4031, 4032, 4033, 4034, 4035)
+
+label_all['dkt'] = ( 1002, 1003,
+               1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015,
+               1016, 1017, 1018, 1019, 1020, 1021, 1022, 1023, 1024, 1025, 1026,
+               1027, 1028, 1029, 1030, 1031, 1034, 1035, 2002, 2003, 2005, 2006,
+               2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
+               2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028,
+               2029, 2030, 2031, 2034, 2035)
 nib.Nifti1Header.quaternion_threshold = -100
 
 
@@ -85,6 +93,7 @@ def run(model_ff, input_nib, GPU):
     label_num['bet'] = 2
     label_num['aseg43'] = 44
     label_num['wmp'] = 74
+    label_num['dkt'] = 63
         
     if seg_mode == 'bet' and False:
         #sigmoid
@@ -103,7 +112,7 @@ def run(model_ff, input_nib, GPU):
         mask_pred = np.argmax(logits, axis=0)
         prob = softmax(logits, axis=0)
 
-    if seg_mode in ['aseg43', 'wmp']:
+    if seg_mode in ['aseg43', 'wmp', 'dkt']:
         labels = label_all[seg_mode]
         mask_pred_relabel = mask_pred * 0
         for ii in range(len(labels)):
