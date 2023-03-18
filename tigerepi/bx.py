@@ -83,7 +83,7 @@ def run_args(args):
     get_a = args.aseg
     get_b = args.bet
     get_w = args.wmp
-    get_k= args.dkt
+    get_k = args.dkt
 
     if True not in [get_m, get_a, get_b, get_w]:
         get_b = True
@@ -104,7 +104,7 @@ def run_args(args):
     default_model['bet'] = 'epi_bet_v002_full.onnx'
     default_model['aseg'] = 'epi_aseg43_v002_r17.onnx'
     default_model['wmp'] = 'epi_wmp_v002_r17.onnx'
-    default_model['wmp'] = 'epi_dkt_v002_r17.onnx'
+    default_model['dkt'] = 'epi_dkt_v002_r17.onnx'
 
 
     # if you want to use other models
