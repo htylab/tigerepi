@@ -81,8 +81,10 @@ def run(model_ff, input_nib, GPU):
 
     data = input_nib.get_fdata()
 
-
-    image = data[None, ...][None, ...]
+    if len(data.shape)>3:
+        image = data[...,0][None, ...][None, ...]
+    else:
+        image = data[None, ...][None, ...]
     image = image/np.max(image)
 
 

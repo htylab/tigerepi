@@ -13,7 +13,7 @@ classifiers = [
 setup(
      name='tigerepi',
 
-     version='0.0.1',
+     version='0.0.2',
      description='Processing EPI images based on deep-learning',
      long_description_content_type='text/markdown',
      url='https://github.com/htylab/tigerepi',
