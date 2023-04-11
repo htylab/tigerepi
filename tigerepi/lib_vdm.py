@@ -73,18 +73,18 @@ def write_file(model_ff, input_file, output_dir, vol_out, inmem=False, postfix='
     affine = input_nib.affine
     zoom = input_nib.header.get_zooms()
     
-    
-    overflow = 0
-    if np.issubdtype(input_nib.get_data_dtype(), np.integer):
-        if np.max(vol_out) > np.iinfo(input_nib.get_data_dtype()).max:
-            overflow = 1
-    elif np.issubdtype(input_nib.get_data_dtype(), np.floating):
-        if np.max(vol_out) > np.finfo(input_nib.get_data_dtype()).max:
-            overflow = 1
-            
+
     if postfix=='vdm':
         result = nib.Nifti1Image(vol_out.astype('float32'), affine)
     else:
+        overflow = 0
+        if np.issubdtype(input_nib.get_data_dtype(), np.integer):
+            if np.max(vol_out) > np.iinfo(input_nib.get_data_dtype()).max:
+                overflow = 1
+        elif np.issubdtype(input_nib.get_data_dtype(), np.floating):
+            if np.max(vol_out) > np.finfo(input_nib.get_data_dtype()).max:
+                overflow = 1
+
         result = nib.Nifti1Image(vol_out.astype(input_nib.get_data_dtype()), affine) if not overflow else nib.Nifti1Image(vol_out, affine)
         result.header.set_zooms(zoom)
 
