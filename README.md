@@ -28,10 +28,10 @@ https://github.com/htylab/tigerepi/releases
 
 ** Mac and Windows  are supported.**
 
-** Ubuntu (version >18.04)  are supported.**
+** Ubuntu (version >20.04)  are supported.**
 
 ```
->>tigerepi  c:\data\**\*epi.nii -o c:\outputdir -b -m -a -w
+>>tigerepi  c:\data\**\*epi.nii -o c:\outputdir -b -m -a -w -k
 -b: producing extracted brain
 -m: producing the brain mask
 -a: producing the aseg mask
@@ -39,7 +39,7 @@ https://github.com/htylab/tigerepi/releases
 -k, Producing the dkt mask (work in progress)
 ```
 
-## VDM
+## Virtual Displacement Mapping
 
 ### As a python package
 
@@ -48,7 +48,7 @@ https://github.com/htylab/tigerepi/releases
 
 ** Mac and Windows  are supported.**
 
-** Ubuntu (version >18.04)  are supported.**
+** Ubuntu (version >20.04)  are supported.**
 ```
 >>tigerepi_vdm  c:\data\**\*epi.nii -o c:\outputdir
 ```
