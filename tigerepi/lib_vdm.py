@@ -83,7 +83,7 @@ def write_file(model_ff, input_file, output_dir, vol_out, inmem=False, postfix='
             overflow = 1
             
     if postfix=='vdm':
-        result = nib.Nifti1Image(vol_out.astype(input_nib.get_data_dtype()), affine) if not overflow else nib.Nifti1Image(vol_out, affine)
+        result = nib.Nifti1Image(vol_out.astype('float32'), affine)
     else:
         result = nib.Nifti1Image(vol_out.astype(input_nib.get_data_dtype()), affine) if not overflow else nib.Nifti1Image(vol_out, affine)
         result.header.set_zooms(zoom)

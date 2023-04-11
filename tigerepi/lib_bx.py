@@ -81,7 +81,7 @@ def run(model_ff, input_nib, GPU):
 
     data = input_nib.get_fdata()
 
-    if len(data.shape)>3:
+    if len(data.shape)==4:
         image = data[...,0][None, ...][None, ...]
     else:
         image = data[None, ...][None, ...]
@@ -142,7 +142,8 @@ def read_file(model_ff, input_file):
         #vol_nib = reorder_img(nib.load(input_file), resample='linear')
         vol_nib = reorder_img(nib.load(input_file), resample='continuous')
     elif mat_size <= 30 and mat_size>=10:
-        vol_nib = resample_voxel(nib.load(input_file), (1.7, 1.7, 1.7))
+        voxel_size = mat_size/10
+        vol_nib = resample_voxel(nib.load(input_file), (voxel_size, voxel_size, voxel_size))
         vol_nib = reorder_img(vol_nib, resample='continuous')
     else:
         affine, shape = get_affine(mat_size)
