@@ -72,17 +72,16 @@ def get_mat_size(model_ff):
     return mat_size
 
 
-def run(model_ff, input_nib, GPU):
+def run(model_ff, input_nib, GPU, index=0):
 
 
     seg_mode, _ , model_str = get_mode(model_ff)
      
 
-
     data = input_nib.get_fdata()
 
     if len(data.shape)==4:
-        image = data[...,0][None, ...][None, ...]
+        image = data[...,index][None, ...][None, ...]
     else:
         image = data[None, ...][None, ...]
     image = image/np.max(image)
@@ -144,7 +143,8 @@ def read_file(model_ff, input_file):
     elif mat_size <= 30 and mat_size>=10:
         voxel_size = mat_size/10
         vol_nib = resample_voxel(nib.load(input_file), (voxel_size, voxel_size, voxel_size))
-        vol_nib = reorder_img(vol_nib, resample='continuous')
+        if 'bet' not in model_ff:
+            vol_nib = reorder_img(vol_nib, resample='continuous')
     else:
         affine, shape = get_affine(mat_size)
         vol_nib = resample_img(nib.load(input_file),

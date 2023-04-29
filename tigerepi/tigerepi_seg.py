@@ -10,17 +10,17 @@ import platform
 import nibabel as nib
 
 from tigerepi import lib_tool
-from tigerepi import lib_bx
+from tigerepi import lib_seg
 
 from nilearn.image import resample_to_img, reorder_img
 
-def produce_mask(model, f, GPU=False, brainmask_nib=None):
+def produce_mask(model, f, GPU=False, brainmask_nib=None, index=0):
 
     model_ff = lib_tool.get_model(model)
     input_nib = nib.load(f)
-    input_nib_resp = lib_bx.read_file(model_ff, f)
-    mask_nib_resp, prob_resp = lib_bx.run(
-        model_ff, input_nib_resp,  GPU=GPU)
+    input_nib_resp = lib_seg.read_file(model_ff, f)
+    mask_nib_resp, prob_resp = lib_seg.run(
+        model_ff, input_nib_resp, GPU=GPU, index=index)
 
     mask_nib = resample_to_img(
         mask_nib_resp, input_nib, interpolation="nearest")
@@ -52,12 +52,13 @@ def main():
     parser.add_argument('-b', '--bet', action='store_true', help='Producing bet images')
     parser.add_argument('-w', '--wmp', action='store_true', help='Producing white matter parcellation')
     parser.add_argument('-k', '--dkt', action='store_true', help='Producing dkt mask')
+    parser.add_argument('--index', default=0, type=str, help='The index of the b0 slice, default: 0 (the first slice)')
     parser.add_argument('--model', default=None, type=str, help='Specifies the modelname')
     #parser.add_argument('--report',default='True',type = strtobool, help='Produce additional reports')
     args = parser.parse_args()
     run_args(args)
 
-def seg(argstring, input, output=None, model=None):
+def seg(argstring, input, output=None, index=0, model=None):
 
     from argparse import Namespace
     args = Namespace()
@@ -73,6 +74,7 @@ def seg(argstring, input, output=None, model=None):
         input = [input]
     args.input = input
     args.output = output
+    args.index = index
     args.model = model
     run_args(args)   
 
@@ -99,12 +101,14 @@ def run_args(args):
 
     output_dir = args.output
 
+    index = int(args.index)
+    
     default_model = dict()
 
-    default_model['bet'] = 'epi_bet_v002_full.onnx'
-    default_model['aseg'] = 'epi_aseg43_v002_r17.onnx'
-    default_model['wmp'] = 'epi_wmp_v002_r17.onnx'
-    default_model['dkt'] = 'epi_dkt_v002_r17.onnx'
+    default_model['bet'] = 'epi_bet_v003_r10.onnx'
+    default_model['aseg'] = 'epi_aseg43_v003_r10.onnx'
+    default_model['wmp'] = 'epi_wmp_v003_r10.onnx'
+    default_model['dkt'] = 'epi_dkt_v003_r10.onnx'
 
 
     # if you want to use other models
@@ -144,14 +148,14 @@ def run_args(args):
         ftemplate = join(f_output_dir, ftemplate)
 
         
-        tbetmask_nib = produce_mask(model_bet, f, GPU=args.gpu)
+        tbetmask_nib = produce_mask(model_bet, f, GPU=args.gpu, index=index)
         if get_m:
             save_nib(tbetmask_nib, ftemplate, 'tbetmask')
 
         if get_b:
             input_nib = nib.load(f)
             if len(input_nib.shape)==4:
-                bet = input_nib.get_fdata()[...,0] * tbetmask_nib.get_fdata()
+                bet = input_nib.get_fdata()[...,index] * tbetmask_nib.get_fdata()
             else:
                 bet = input_nib.get_fdata() * tbetmask_nib.get_fdata()
 
@@ -165,19 +169,19 @@ def run_args(args):
         
 
         if get_a:
-            aseg_nib = produce_mask(model_aseg, f, GPU=args.gpu,
+            aseg_nib = produce_mask(model_aseg, f, GPU=args.gpu, index=index, 
                                     brainmask_nib=tbetmask_nib)
             save_nib(aseg_nib, ftemplate, 'aseg')
 
         
         if get_w:
-            wmp_nib = produce_mask(model_wmp, f, GPU=args.gpu,
+            wmp_nib = produce_mask(model_wmp, f, GPU=args.gpu, index=index, 
                                     brainmask_nib=tbetmask_nib)
  
             save_nib(wmp_nib, ftemplate, 'wmp')
 
         if get_k:
-            dkt_nib = produce_mask(model_dkt, f, GPU=args.gpu,
+            dkt_nib = produce_mask(model_dkt, f, GPU=args.gpu, index=index, 
                                     brainmask_nib=tbetmask_nib)
  
             save_nib(dkt_nib, ftemplate, 'dkt')

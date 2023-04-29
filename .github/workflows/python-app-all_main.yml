@@ -22,7 +22,7 @@ jobs:
       matrix:
         os: ['windows-latest', 'ubuntu-20.04', 'macos-latest']
         #os: ['windows-latest']
-        py: ['bx', 'vdm']
+        py: ['tigerepi_seg', 'tigerepi_vdm']
 
     steps:
     - uses: actions/checkout@v3
