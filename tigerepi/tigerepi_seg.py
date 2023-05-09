@@ -194,6 +194,6 @@ def run_args(args):
 
 if __name__ == "__main__":
     main()
-    if platform.system() == 'Windows':
-        os.system('pause')
+    # if platform.system() == 'Windows':
+    #     os.system('pause')
 
