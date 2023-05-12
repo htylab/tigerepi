@@ -11,6 +11,7 @@ from scipy.ndimage import median_filter
 from scipy.ndimage import binary_dilation
 from nilearn.image import resample_img
 
+from tigerepi import lib_tool
 
 nib.Nifti1Header.quaternion_threshold = -100
 
@@ -181,6 +182,7 @@ def gernerate_vdm(vdm_mode, session, orig_data, b0_index, resample=True):
     if resample:
         resample_nii = resample_to_new_resolution(nib.Nifti1Image(vol, orig_data.affine), target_resolution=(1.7, 1.7, 1.7), target_shape=None, interpolation='continuous')
         vol_resize = resample_nii.get_fdata()
+        vol_resize = lib_tool.ResizeWithPadOrCrop(vol_resize, (150, 150, 120))
         head_mask = get_head_mask(vol_resize, htype=1)!=0
         vol_resize = vol_resize / np.max(vol_resize)
     else:
@@ -196,7 +198,8 @@ def gernerate_vdm(vdm_mode, session, orig_data, b0_index, resample=True):
     logits = predict(session, image)
 
     if resample:
-        df_map = resample_to_new_resolution(nib.Nifti1Image(logits[0, 0, ...], resample_nii.affine), target_resolution=zoom, target_shape=vol.shape, interpolation='linear').get_fdata() * 1.7 / zoom[1]
+        df_map = lib_tool.ResizeWithPadOrCrop(logits[0, 0, ...], resample_nii.shape)
+        df_map = resample_to_new_resolution(nib.Nifti1Image(df_map, resample_nii.affine), target_resolution=zoom, target_shape=vol.shape, interpolation='linear').get_fdata() * 1.7 / zoom[1]
     else:
         df_map = logits[0, 0, ...]
 
@@ -217,6 +220,7 @@ def get_head_mask(ima, htype=1):
         head_mask = median_filter(binary_dilation(ima > 15), size=3)        
 
     return head_mask
+
 
 def HistogramNormalize( img: np.ndarray, 
                         mask: np.ndarray = None, 

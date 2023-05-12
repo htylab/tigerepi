@@ -19,9 +19,16 @@ def produce_mask(model, f, GPU=False, brainmask_nib=None, index=0):
     model_ff = lib_tool.get_model(model)
     input_nib = nib.load(f)
     input_nib_resp = lib_seg.read_file(model_ff, f)
-    mask_nib_resp, prob_resp = lib_seg.run(
-        model_ff, input_nib_resp, GPU=GPU, index=index)
+    
+    input_nib_resize = nib.Nifti1Image(lib_tool.ResizeWithPadOrCrop(input_nib_resp.get_fdata(), (240, 240, 180)), input_nib_resp.affine)
+    nib.save(input_nib_resize, 'test.nii.gz')
+    mask_nib_resize, prob_resize = lib_seg.run(
+        model_ff, input_nib_resize, GPU=GPU, index=index)
 
+    mask_nib_resp = nib.Nifti1Image(lib_tool.ResizeWithPadOrCrop(mask_nib_resize.get_fdata(), input_nib_resp.shape), input_nib_resp.affine)
+    
+    prob_resp = lib_tool.ResizeWithPadOrCrop(prob_resize, prob_resize.shape[:-3] + input_nib_resp.shape)
+    nib.save(mask_nib_resize, 'test2.nii.gz')
     mask_nib = resample_to_img(
         mask_nib_resp, input_nib, interpolation="nearest")
 

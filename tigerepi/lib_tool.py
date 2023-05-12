@@ -192,6 +192,36 @@ def cpu_count():
     raise Exception('Can not determine number of CPUs on this system')
 
 
+def ResizeWithPadOrCrop(image, image_size):
+
+    slices = tuple()
+    padding = []
+    for i, size in enumerate(image_size):
+        if image.shape[i] > size:
+            d = image.shape[i] - size
+            slices += (slice(int(d//2), int(image.shape[i]) - int(d/2 + 0.5)), )
+            padding.append((0, 0))
+            
+        elif image.shape[i] < size:
+            d = size - image.shape[i]
+            slices += (slice(0, image.shape[i]), )
+            padding.append((int(d//2), int(d/2 + 0.5)))
+            
+        else:
+            slices += (slice(0, image.shape[i]), )
+            padding.append((0, 0))
+            
+            
+    image_resize = image.copy()
+    image_resize = image_resize[slices]
+    image_resize = np.pad(image_resize, 
+                           padding, 
+                           'constant', 
+                           constant_values=np.zeros((len(image_size), 2)))
+            
+    return image_resize
+
+    
 def predict(model, data, GPU):
     #from .tool import cpu_count
     #will reload model file every time
