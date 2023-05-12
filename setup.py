@@ -13,7 +13,7 @@ classifiers = [
 setup(
      name='tigerepi',
 
-     version='0.0.3',
+     version='0.0.4',
      description='Processing EPI images based on deep-learning',
      long_description_content_type='text/markdown',
      url='https://github.com/htylab/tigerepi',
@@ -29,6 +29,7 @@ setup(
         'console_scripts': [
             'tigerepi = tigerepi.tigerepi_seg:main',
             'tigerepi_seg = tigerepi.tigerepi_seg:main',
+            'tigervdm = tigerepi.tigerepi_vdm:main',
             'tigerepi_vdm = tigerepi.tigerepi_vdm:main',
 
         ]
