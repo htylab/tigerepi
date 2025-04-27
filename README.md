@@ -61,7 +61,7 @@ https://github.com/htylab/tigerepi/releases
 
 * If you use this application, cite the following paper:
 
-1. Kuo CC, Huang TY, Lin YR, Chuang TC, Tsai SY, Chung HW, “Referenceless correction of EPI distortion with virtual displacement mapping” (2023)
+1. Kuo CC, Huang TY, Lin YR, Chuang TC, Tsai SY, Chung HW, “Referenceless correction of EPI distortion with virtual displacement mapping”
 
 ## Label definitions
 
