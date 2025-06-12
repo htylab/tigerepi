@@ -55,7 +55,7 @@ def affine(input_dir, output_dir, fixed_image_path=None, fixed_antspy_image=None
 
     if do_write:
         print(f"Registration & transform completed. Outputs in: {output_dir}")
-        #return warped_dict, tx
+        return warped_dict, tx
     else:
         return warped_dict, tx
 
