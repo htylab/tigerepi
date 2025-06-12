@@ -93,8 +93,9 @@ def run_args(args):
     except IndexError:
         raise IndexError(f"b0_index={b0_index} 超出 input_file_list 的範圍 (共有 {len(input_file_list)} 張影像)。")
     b0_filename = os.path.basename(b0_filepath)
-
-    default_template = os.path.join('template', 'MNI152_T1_1mm_brain.nii.gz')
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    default_template = os.path.join(this_dir, '..', 'template', 'MNI152_T1_1mm_brain.nii.gz')
+    
     if args.fixed is None or args.fixed == default_template:
         warped_dict, tx =  lib_reg.affine(
         input_dir,
