@@ -60,7 +60,7 @@ def affine(input_dir, output_dir, fixed_image_path=None, fixed_antspy_image=None
         return warped_dict, tx
 
 
-def norm_array(data: np.ndarray) -> np.ndarray:
+def norm_array(data: np.ndarray):
     
     foreground_mask = data != 0
 
@@ -81,7 +81,7 @@ def norm_array(data: np.ndarray) -> np.ndarray:
     return normalized_data
 
 
-def resample_nifti_image(nib_img: nib.Nifti1Image, voxel_sizes: tuple = (1.0, 1.0, 1.0), interpolation_order: int = 1) -> nib.Nifti1Image:
+def resample_nifti_image(nib_img: nib.Nifti1Image, voxel_sizes: tuple = (1.0, 1.0, 1.0), interpolation_order: int = 1):
     
     try:
         resampled = resample_to_output(nib_img, voxel_sizes=voxel_sizes, order=interpolation_order)
@@ -91,7 +91,7 @@ def resample_nifti_image(nib_img: nib.Nifti1Image, voxel_sizes: tuple = (1.0, 1.
     return resampled
 
     
-def pad_and_crop(nib_img: nib.Nifti1Image, target_shape: tuple) -> nib.Nifti1Image:
+def pad_and_crop(nib_img: nib.Nifti1Image, target_shape: tuple):
    
     data = nib_img.get_fdata()
     original_affine = nib_img.affine.copy()
@@ -99,7 +99,7 @@ def pad_and_crop(nib_img: nib.Nifti1Image, target_shape: tuple) -> nib.Nifti1Ima
     target_np_shape = (target_shape[2], target_shape[1], target_shape[0])
     
     def pad_to_shape(img, target_np_shape):
-        current_shape = img.shape  # (Z, Y, X)
+        current_shape = img.shape
         padding_amount = [max(0, t - s) for s, t in zip(current_shape, target_np_shape)]
         pad_width = [(p // 2, p - (p // 2)) for p in padding_amount]
         padded = np.pad(img, pad_width, mode='constant', constant_values=0)

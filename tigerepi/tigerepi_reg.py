@@ -1,29 +1,15 @@
-
 import argparse
-import os
 import glob
 from os.path import join
 import ants
 import tempfile
 import nibabel as nib
 import numpy as np
-
-
-from nilearn.image import reorder_img, resample_img
+import os, sys
+from nilearn.image import reorder_img
 
 from tigerepi import lib_tool
-#from tigerepi import lib_reg
-import os, sys
-
-
-# 把當前檔案所在的目錄 (也就是本地的 tigerepi/) 插到 sys.path 最前面
-this_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, this_dir)
-
-# 接著就能直接用「import lib_reg」而不是「from . import lib_reg」
-import lib_reg
-
-from tigerepi import lib_vdm
+from tigerepi import lib_reg
 
 
 def main():
@@ -44,17 +30,13 @@ def reg(input, output=None, fixed=None, b0_index=0, GPU=False, ants=False):
     args = Namespace()
 
     args.b0_index = str(b0_index)
-    
     args.gpu = GPU
-
     args.ants  = ants
-
     args.fixed = fixed
 
     if not isinstance(input, list):
         input = [input]
     args.input = input
-    
     args.output = output
 
     run_args(args)  
@@ -94,7 +76,7 @@ def run_args(args):
         raise IndexError(f"b0_index={b0_index} 超出 input_file_list 的範圍 (共有 {len(input_file_list)} 張影像)。")
     b0_filename = os.path.basename(b0_filepath)
     this_dir = os.path.dirname(os.path.abspath(__file__))
-    default_template = os.path.join(this_dir, '..', 'template', 'MNI152_T1_1mm_brain.nii.gz')
+    default_template = os.path.join(this_dir, 'template', 'MNI152_T1_1mm_brain.nii.gz')
     
     if args.fixed is None or args.fixed == default_template:
         warped_dict, tx =  lib_reg.affine(
