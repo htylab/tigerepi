@@ -5,7 +5,7 @@ import ants
 import tempfile
 import nibabel as nib
 import numpy as np
-import os, sys
+import os
 from nilearn.image import reorder_img
 
 from tigerepi import lib_tool
@@ -111,7 +111,7 @@ def run_args(args):
             
     if args.ants is True:
         print("只進行affine對位")
-        sys.exit(status)
+        return
     
     warped_b0_image = warped_dict.get(b0_filename)
     warped_b0_np = warped_b0_image.numpy()
