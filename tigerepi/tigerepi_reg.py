@@ -79,7 +79,7 @@ def run_args(args):
     default_template = os.path.join(this_dir, 'template', 'MNI152_T1_1mm_brain.nii.gz')
     
     if args.fixed is None or args.fixed == default_template:
-        warped_dict, tx =  lib_reg.affine(
+        warped_dict =  lib_reg.affine(
         input_dir,
         output_dir,
         default_template,
@@ -99,7 +99,7 @@ def run_args(args):
             nib.save(final_fixed_nib, tmp.name)
             antspy_fixed_for_affine = ants.image_read(tmp.name)
                     
-            warped_dict, tx = lib_reg.affine(
+            warped_dict = lib_reg.affine(
             input_dir,
             output_dir,
             fixed_image_path=None,
@@ -123,19 +123,19 @@ def run_args(args):
     input_b0   = norm_b0.astype(np.float32)[None, ...][None, ...]
     input_fixed = norm_fixed.astype(np.float32)[None, ...][None, ...]
 
-    model_path = "/NFS/Wu/voxelmorph-dev/onnxmodels/epi2.0_0960.onnx"
+    model_path = lib_tool.get_model('epireg_unet3d_v2.0')
     
     disp_field_list = lib_reg.predict(model_path, [input_b0, input_fixed], args.gpu, mode='reg')
-    raw_disp = disp_field_list[1]      # output[1] 通常是位移場 (1,3,D,H,W) 或 (1,D,H,W,3)
-    disp = np.squeeze(raw_disp)        # 去除 batch 維度 → (3,D,H,W) 或 (D,H,W,3)
+    raw_disp = disp_field_list[1]
+    disp = np.squeeze(raw_disp)
     
     if disp.ndim == 4 and disp.shape[0] == 3:
-        disp = np.stack([disp[0], disp[1], disp[2]], axis=-1)  # (D,H,W,3)
+        disp = np.stack([disp[0], disp[1], disp[2]], axis=-1)
     
     assert disp.ndim == 4 and disp.shape[-1] == 3
 
     for filename, affine_img in warped_dict.items():
-        moving_np3d = affine_img.numpy().astype(np.float32)  # shape = (D, H, W)
+        moving_np3d = affine_img.numpy().astype(np.float32)
         warped_np3d = lib_reg.apply_displacement_field(moving_np3d, disp)
         out_affine = lib_reg.ants_image_to_nib_affine(affine_img)
 
