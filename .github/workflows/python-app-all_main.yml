@@ -22,7 +22,7 @@ jobs:
       matrix:
         os: ['windows-latest', 'ubuntu-20.04', 'macos-latest']
         #os: ['windows-latest']
-        py: ['tigerepi_seg', 'tigerepi_vdm']
+        py: ['tigerepi_seg', 'tigerepi_vdm', 'tigerepi_reg']
 
     steps:
     - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
         pyinstaller -c -p ./tigerepi --icon=./tigerepi/exe/ico.ico --add-data ./tigerepi/exe/libonnxruntime_providers_shared.so:onnxruntime/capi -F ./tigerepi/${{ matrix.py }}.py
 
         
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: tigerepi-${{ matrix.py }}-${{ matrix.os }}
         path: dist/*
