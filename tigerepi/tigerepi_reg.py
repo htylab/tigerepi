@@ -73,7 +73,7 @@ def run_args(args):
     try:
         b0_filepath = input_file_list[b0_index]
     except IndexError:
-        raise IndexError(f"b0_index={b0_index} over the input_file_list range (total {len(input_file_list)} 張影像)。")
+        raise IndexError(f"b0_index={b0_index} over the input_file_list range (total {len(input_file_list)} images)。")
     b0_filename = os.path.basename(b0_filepath)
     this_dir = os.path.dirname(os.path.abspath(__file__))
     default_template = os.path.join(this_dir, 'template', 'MNI152_T1_1mm_brain.nii.gz')
