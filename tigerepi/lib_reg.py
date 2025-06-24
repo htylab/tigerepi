@@ -19,7 +19,7 @@ def affine(input_dir, output_dir, fixed_image_path=None, fixed_antspy_image=None
     if not os.path.isfile(b0_path):
         raise FileNotFoundError(f"B0 file not found: {b0_path}")
     moving_b0 = ants.image_read(b0_path)
-    print(f'b0影像為{b0_path}')
+    print(f'b0 image is {b0_path}')
     
     tx = ants.registration(
         fixed=fixed_image,
@@ -54,7 +54,7 @@ def affine(input_dir, output_dir, fixed_image_path=None, fixed_antspy_image=None
             warped_dict[filename] = warped
 
     if do_write:
-        print(f"Registration & transform completed. Outputs in: {output_dir}")
+        print(f"Affine registration & transform completed. Outputs in: {output_dir}")
         return warped_dict
     else:
         return warped_dict
@@ -86,7 +86,7 @@ def resample_nifti_image(nib_img: nib.Nifti1Image, voxel_sizes: tuple = (1.0, 1.
     try:
         resampled = resample_to_output(nib_img, voxel_sizes=voxel_sizes, order=interpolation_order)
     except Exception as e:
-        raise RuntimeError(f"[Error] resample_to_output 失敗: {e}")
+        raise RuntimeError(f"[Error] resample_to_output fail: {e}")
 
     return resampled
 

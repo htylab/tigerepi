@@ -73,7 +73,7 @@ def run_args(args):
     try:
         b0_filepath = input_file_list[b0_index]
     except IndexError:
-        raise IndexError(f"b0_index={b0_index} 超出 input_file_list 的範圍 (共有 {len(input_file_list)} 張影像)。")
+        raise IndexError(f"b0_index={b0_index} over the input_file_list range (total {len(input_file_list)} images)。")
     b0_filename = os.path.basename(b0_filepath)
     this_dir = os.path.dirname(os.path.abspath(__file__))
     default_template = os.path.join(this_dir, 'template', 'MNI152_T1_1mm_brain.nii.gz')
@@ -110,7 +110,7 @@ def run_args(args):
         fixed_for_norm = antspy_fixed_for_affine
             
     if args.ants is True:
-        print("只進行affine對位")
+        print("only do affine reg")
         return
     
     warped_b0_image = warped_dict.get(b0_filename)
@@ -148,7 +148,7 @@ def run_args(args):
         out_path  = os.path.join(output_dir, out_fname)
         nib.save(warped_nib, out_path)
 
-        print(f"{filename} 已套用 b0 位移場，輸出 → {out_fname}")
+        print(f"{filename} , output → {out_fname}")
 
     return
 
